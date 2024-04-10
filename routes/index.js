@@ -51,8 +51,9 @@ var logfile_name = __dirname+'/../public/logs/' +req.query.id_nodo+ "-"+ now.get
 // POST handler
 router.post('/record', function(req, res, next) {
   const data = req.body;
+  var now = new Date();
   
-  crate.execute("INSERT INTO ra_table (id_nodo, time, temperatura, humedad, co2, volatiles) VALUES (?, ?, ?, ?, ?, ?)", [data.id_nodo, fechaLegible, data.temperatura, data.humedad, data.co2, data.volatiles])
+  crate.execute("INSERT INTO ra_table (id_nodo, time, temperatura, humedad, co2, volatiles) VALUES (?, ?, ?, ?, ?, ?)", [data.id_nodo, now.getTime(), data.temperatura, data.humedad, data.co2, data.volatiles])
     .then((result) => {
       console.log('Datos enviados a la DB:', result);
     })
