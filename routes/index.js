@@ -2,11 +2,8 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var mqtt = require('mqtt');
-var crate = require('node-crate');
 
 const mqttClient = mqtt.connect('mqtt://localhost'); 
-
-crate.connect('localhost', 4200);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,16 +13,6 @@ router.get('/', function(req, res, next) {
 router.get('/record', function(req, res, next) {
 	var now = new Date();
 var logfile_name = __dirname+'/../public/logs/' +req.query.id_nodo+ "-"+ now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.csv'
-
-  const data = req.query;
-  
-  crate.execute("INSERT INTO ra_table (id_nodo, time, temperatura, humedad, co2, volatiles) VALUES (?, ?, ?, ?, ?, ?)", [data.id_nodo, now.getTime(), data.temperatura, data.humedad, data.co2, data.volatiles])
-    .then((result) => {
-      console.log('Datos enviados a la DB:', result);
-    })
-    .catch((error) => {
-      console.error('Error al enviar datos:', error);
-    });
 	
 	mqttClient.publish('sensor-topic', JSON.stringify(req.query));
 
@@ -51,14 +38,6 @@ var logfile_name = __dirname+'/../public/logs/' +req.query.id_nodo+ "-"+ now.get
 // POST handler
 router.post('/record', function(req, res, next) {
   const data = req.body;
-  
-  crate.execute("INSERT INTO ra_table (id_nodo, time, temperatura, humedad, co2, volatiles) VALUES (?, ?, ?, ?, ?, ?)", [data.id_nodo, fechaLegible, data.temperatura, data.humedad, data.co2, data.volatiles])
-    .then((result) => {
-      console.log('Datos enviados a la DB:', result);
-    })
-    .catch((error) => {
-      console.error('Error al enviar datos:', error);
-    });
 	
   mqttClient.publish('sensor-topic', JSON.stringify(data));
   res.sendStatus(200);
