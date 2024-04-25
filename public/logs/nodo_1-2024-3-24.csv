@@ -1,0 +1,2 @@
+id_nodo; timestamp; temperatura; humedad; CO2; volatiles
+nodo_1;1713979807340;24.5;68.2;293;11

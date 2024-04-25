@@ -43,6 +43,7 @@ router.post('/record', function(req, res, next) {
   res.sendStatus(200);
 });
 
+
 function append2file (file2append, content){
 	fs.appendFile(file2append, content, function (err) {
     if (err) throw err;
