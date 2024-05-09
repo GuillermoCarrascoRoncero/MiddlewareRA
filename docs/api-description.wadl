@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<application xmlns="http://wadl.dev.java.net/2009/02">
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://wadl.dev.java.net/2009/02/wadl.xsd"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://wadl.dev.java.net/2009/02">
     <grammars>
         <include href="http://www.w3.org/2001/XMLSchema.xsd" />
     </grammars>
@@ -52,6 +54,18 @@
                 <response status="400">
                     <representation mediaType="application/xml"
                         element="ya:Error" />
+                </response>
+            </method>
+        </resource>
+        <resource path="/wadl">
+            <method name="GET" id="get-wadl">
+                <response status="200">
+                    <representation mediaType="application/xml"
+                        element="yn:WADLDescription" />
+                </response>
+                <response status="500">
+                    <representation mediaType="text/plain"
+                        element="yn:ServerError" />
                 </response>
             </method>
         </resource>
